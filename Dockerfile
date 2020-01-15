@@ -74,5 +74,12 @@ COPY config/core-site.xml config/hdfs-site.xml config/mapred-site.xml \
 RUN echo $JAVA_HOME_DOCKER >> /root/hadoop/etc/hadoop/hadoop-env.sh
 RUN mkdir /loggs
 
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && \
+    apt-get install postgresql-server-dev-all python3-dev gcc -y && \
+    apt-get clean
+
+RUN pip3 install requests pytest setuptools
+
 WORKDIR /root/
 ENTRYPOINT ["/bin/bash", "/root/entrypoint.sh"]

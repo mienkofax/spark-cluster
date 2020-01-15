@@ -1,4 +1,5 @@
 #!/bin/bash
+
 export PATH=/root/hadoop/bin:/root/hadoop/sbin:/root/spark/bin:$PATH
 export HADOOP_HOME=/root/hadoop
 export LD_LIBRARY_PATH=/root/hadoop/lib/native:$LD_LIBRARY_PATH
@@ -32,6 +33,7 @@ function init_directory() {
     fi
 }
 
+pip3 install -U setuptools
 pip3 --no-cache-dir install -r /root/tasks/requirements.txt
 
 for arg in "$@"

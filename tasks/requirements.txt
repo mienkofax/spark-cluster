@@ -1,1 +1,10 @@
-pandas==0.25.3
+setuptools
+PyYAML
+alembic
+psycopg2
+pytest
+pytest-sugar
+requests
+scipy
+sqlalchemy
+urllib3
