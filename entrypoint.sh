@@ -18,10 +18,18 @@ function wait_for_endpoint() {
 }
 
 function init_container() {
-    if [ ! -f "/formated" ]; then
+    rm -rf /root/data
+  #  if [ ! -f "/formated" ]; then
         hadoop/bin/hdfs namenode -format
         touch /formated
-    fi
+   # fi
+}
+
+function copy_data() {
+    echo "Start of copy data to hadoop"
+    hdfs dfs -put /cache/dataset/domain_list.csv /domain_list.csv
+    hdfs dfs -put /cache/dataset/domain_list_test.csv /domain_list_test.csv
+    echo "End of copy data to hadoop"
 }
 
 function init_directory() {
@@ -33,7 +41,7 @@ function init_directory() {
 }
 
 pip3 --no-cache-dir install -r /root/tasks/requirements.txt
-pip3 --no-cache-dir install /root/package/dga.tar.gz
+pip3 --no-cache-dir install --upgrade /root/package/dga.tar.gz
 
 for arg in "$@"
 do
@@ -52,6 +60,8 @@ do
             echo ">>>>> Starting Spark history server"
             init_directory
             /root/spark/sbin/start-history-server.sh
+
+            copy_data
 
             echo ">> Starting Spark master ..."
             /root/spark/sbin/start-master.sh
